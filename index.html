@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="es-CL">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Proyectos — Christian Felipe Díaz Miranda</title>
+<meta name="description" content="Los cuatro proyectos activos, su relación y el estado real de cada uno, verificado contra los repositorios y no contra notas.">
+<style>
+  :root {
+    --fondo: #FAF7F0;
+    --superficie: #F1ECE1;
+    --tinta: #191713;
+    --tenue: #5C5A52;
+    --linea: #DDD6C7;
+    --acento: #1C4B4F;
+    --acento2: #8A3B22;
+    --exito: #2C6A4A;
+    --alerta: #8A5A00;
+    --display: "Newsreader", Georgia, "Times New Roman", serif;
+    --texto: "Schibsted Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --mono: "Geist Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: var(--texto);
+    background: var(--fondo);
+    color: var(--tinta);
+    line-height: 1.62;
+    font-size: clamp(1.0625rem, 1.038rem + .1087vw, 1.125rem);
+    -webkit-font-smoothing: antialiased;
+  }
+  .lienzo { max-width: 60rem; margin: 0 auto; padding: clamp(2rem, 6vw, 5rem) clamp(1.25rem, 5vw, 3rem); }
+
+  header { border-bottom: 1px solid var(--linea); padding-bottom: 2.5rem; margin-bottom: 3rem; }
+  .sobretitulo {
+    font-size: .71875rem; letter-spacing: .14em; text-transform: uppercase;
+    font-weight: 600; color: var(--acento); margin-bottom: 1rem;
+  }
+  h1 {
+    font-family: var(--display); font-weight: 400;
+    font-size: clamp(2.25rem, 1.565rem + 3.04vw, 4rem);
+    line-height: 1.08; letter-spacing: -.022em; text-wrap: balance;
+  }
+  h1 em { font-style: italic; color: var(--acento); }
+  .entrada {
+    font-size: clamp(1.125rem, 1.05rem + .33vw, 1.3125rem);
+    color: var(--tenue); margin-top: 1.5rem; max-width: 44rem; line-height: 1.55;
+  }
+
+  h2 {
+    font-family: var(--display); font-weight: 400;
+    font-size: clamp(1.5rem, 1.207rem + 1.3vw, 2.25rem);
+    line-height: 1.16; letter-spacing: -.014em; margin-bottom: 1.5rem;
+  }
+
+  .relato { margin-bottom: 4rem; }
+  .relato ol { list-style: none; counter-reset: paso; }
+  .relato li {
+    counter-increment: paso; position: relative;
+    padding-left: 3.5rem; padding-bottom: 1.75rem;
+    border-left: 1px solid var(--linea); margin-left: 1.1rem;
+  }
+  .relato li:last-child { border-left-color: transparent; padding-bottom: 0; }
+  .relato li::before {
+    content: counter(paso); position: absolute; left: -1.1rem; top: 0;
+    width: 2.2rem; height: 2.2rem; border-radius: 50%;
+    background: var(--superficie); border: 1px solid var(--linea);
+    display: grid; place-items: center;
+    font-family: var(--mono); font-size: .8125rem; color: var(--acento);
+  }
+  .relato strong { display: block; font-weight: 600; margin-bottom: .25rem; }
+  .relato p { color: var(--tenue); font-size: .9375rem; }
+
+  .ficha {
+    background: var(--superficie);
+    border: 1px solid var(--linea);
+    border-radius: 2px;
+    padding: clamp(1.5rem, 4vw, 2.25rem);
+    margin-bottom: 1.5rem;
+  }
+  .ficha-cabeza {
+    display: flex; flex-wrap: wrap; gap: 1rem;
+    align-items: baseline; justify-content: space-between;
+    margin-bottom: .75rem;
+  }
+  .ficha h3 {
+    font-family: var(--display); font-weight: 400; font-size: 1.5rem;
+    letter-spacing: -.008em;
+  }
+  .ficha-cabeza .num {
+    font-family: var(--mono); font-size: .75rem; color: var(--tenue);
+    letter-spacing: .08em;
+  }
+  .ficha .rol { color: var(--tenue); font-size: .9375rem; margin-bottom: 1.25rem; }
+
+  .marca {
+    display: inline-block; font-size: .6875rem; font-weight: 600;
+    letter-spacing: .1em; text-transform: uppercase;
+    padding: .25rem .625rem; border-radius: 2px;
+    border: 1px solid currentColor;
+  }
+  .marca.listo { color: var(--exito); }
+  .marca.pendiente { color: var(--alerta); }
+  .marca.bloqueado { color: var(--acento2); }
+
+  dl.datos { display: grid; grid-template-columns: max-content 1fr; gap: .5rem 1.5rem; font-size: .9375rem; }
+  dl.datos dt { color: var(--tenue); }
+  dl.datos dd { font-family: var(--mono); font-size: .8125rem; overflow-wrap: anywhere; }
+
+  .nota {
+    border-left: 2px solid var(--acento2);
+    padding: .875rem 0 .875rem 1.25rem;
+    margin-top: 1.25rem; font-size: .9375rem; color: var(--tenue);
+  }
+  .nota strong { color: var(--tinta); }
+
+  footer {
+    border-top: 1px solid var(--linea); margin-top: 4rem; padding-top: 2rem;
+    font-size: .875rem; color: var(--tenue);
+  }
+  footer code { font-family: var(--mono); font-size: .8125rem; background: var(--superficie); padding: .125rem .375rem; }
+  @media (max-width: 640px) {
+    dl.datos { grid-template-columns: 1fr; gap: .125rem; }
+    dl.datos dd { margin-bottom: .75rem; }
+  }
+</style>
+</head>
+<body>
+<div class="lienzo">
+
+<header>
+  <p class="sobretitulo">Christian Felipe Díaz Miranda · Villa Alemana</p>
+  <h1>Cuatro proyectos, <em>una sola cadena</em>.</h1>
+  <p class="entrada">
+    No son proyectos sueltos: es una casa de producción que necesitaba herramientas, y una
+    herramienta que se convirtió en producto. Este es el orden real, con el estado verificado
+    de cada uno al 6 de noviembre de 2026.
+  </p>
+</header>
+
+<section class="relato">
+  <h2>Cómo se encadenan</h2>
+  <ol>
+    <li>
+      <strong>Primero fue el canal.</strong>
+      <p>Los Archivos del Umbral: una casa de producción audiovisual para hacer videos de
+      investigación. El objetivo original era producir, no programar.</p>
+    </li>
+    <li>
+      <strong>Producir a mano no escalaba.</strong>
+      <p>De ahí nace el equipo de agentes: un equipo multi-rol que se encarga de guion,
+      montaje y publicación. Es el proyecto de mayor prioridad de todos.</p>
+    </li>
+    <li>
+      <strong>La capacidad técnica se volvió producto.</strong>
+      <p>Rokusho: la misma exigencia de verificar cada cifra, empaquetada como informes
+      vendibles por entregable. La idea llegó después del agente, no antes.</p>
+    </li>
+    <li>
+      <strong>Y hace falta pagar las cuentas mientras eso madura.</strong>
+      <p>El plan de monetización personal, con horizontes de 7, 14, 30 y 60 días. No es un
+      proyecto de software: es el calendario de ingresos.</p>
+    </li>
+  </ol>
+</section>
+
+<h2>Estado verificado</h2>
+
+<article class="ficha">
+  <div class="ficha-cabeza">
+    <h3>Los Archivos del Umbral</h3>
+    <span class="marca listo">Al día</span>
+  </div>
+  <p class="rol">La casa de producción. YouTube <code>@Racionalirracional</code> · Instagram <code>@losarchivosdelumbral</code>.</p>
+  <dl class="datos">
+    <dt>Último commit</dt><dd>60a5f22 · 5 nov 2026 · vault backup</dd>
+    <dt>Cambios sin subir</dt><dd>ninguno (0 pendientes)</dd>
+    <dt>Documentos</dt><dd>62 archivos Markdown en la bóveda</dd>
+    <dt>Repositorio</dt><dd>privado</dd>
+  </dl>
+</article>
+
+<article class="ficha">
+  <div class="ficha-cabeza">
+    <h3>GrokBot-Multimedia-Agent</h3>
+    <span class="marca bloqueado">33 commits sin subir</span>
+  </div>
+  <p class="rol">El equipo de agentes que produce el Umbral. Un agente local multi-rol con director, guionista, editor y SEO. <em>Estilo</em> Grok Bot; no es Grok Bot ni está afiliado a xAI.</p>
+  <dl class="datos">
+    <dt>Último commit</dt><dd>3b91b28 · 5 nov 2026 · Extracción 7 evaluada y detenida</dd>
+    <dt>Rama de trabajo</dt><dd>cursor/refinamiento-agentes-b1b5</dd>
+    <dt>Atraso</dt><dd>33 commits (58 archivos, +6.578 / −427)</dd>
+    <dt>Periodo del atraso</dt><dd>4 nov → 5 nov 2026</dd>
+    <dt>Repositorio</dt><dd>privado</dd>
+  </dl>
+  <p class="nota">
+    <strong>Por qué está detenido:</strong> no hay credenciales de GitHub configuradas en este
+    equipo. La clave SSH disponible devuelve <code>Permission denied</code> y el push por HTTPS
+    responde <code>No anonymous write access</code>. Los commits están a salvo en disco; lo que
+    falta es el push.
+  </p>
+</article>
+
+<article class="ficha">
+  <div class="ficha-cabeza">
+    <h3>Rokusho</h3>
+    <span class="marca listo">Publicado y al día</span>
+  </div>
+  <p class="rol">Informes verificables con cifras calculadas, vendidos por entregable. El único proyecto con sitio público.</p>
+  <dl class="datos">
+    <dt>Código</dt><dd>fa53a63 · 6 nov 2026 · 21 commits</dd>
+    <dt>Sitio publicado</dt><dd>c949ba4 · idéntico al archivo local (byte a byte)</dd>
+    <dt>Pruebas</dt><dd>260 pruebas definidas</dd>
+    <dt>Precios</dt><dd>Piloto 8 UF · Encargo 18 UF · Mensual 45 UF / 3 entregables</dd>
+    <dt>Prospectos</dt><dd>168 fichas, 104 con teléfono</dd>
+  </dl>
+  <p class="nota">
+    <strong>Sin actualizaciones pendientes.</strong> La página publicada coincide exactamente con
+    el repo y el documento interno de precios responde 404, como debe. Lo que falta son insumos
+    comerciales, no código: 0 de 168 prospectos tienen sitio o correo.
+  </p>
+</article>
+
+<article class="ficha">
+  <div class="ficha-cabeza">
+    <h3>Rokushou — plan de ingresos</h3>
+    <span class="marca pendiente">Documentos</span>
+  </div>
+  <p class="rol">El calendario de ingresos personales, con horizontes de 7, 14, 30 y 60 días.</p>
+  <dl class="datos">
+    <dt>Naturaleza</dt><dd>7 investigaciones · 3.048 líneas · ~250 fuentes</dd>
+    <dt>Horizonte 7 días</dt><dd>$0 realista (ciclos de pago del mercado)</dd>
+    <dt>Horizonte 30 días</dt><dd>$150.000 – $450.000</dd>
+    <dt>Horizonte 60–70 días</dt><dd>$900.000 – $1.500.000</dd>
+  </dl>
+</article>
+
+<footer>
+  <p>
+    Estado comprobado el 6 de noviembre de 2026 ejecutando
+    <code>./bin/verificar-estado.sh</code> y comparando cada repositorio contra su remoto.
+    Los datos de arriba salen de <code>git log</code>, <code>git status</code> y la hoja de
+    hechos del script, no de notas anteriores.
+  </p>
+</footer>
+
+</div>
+</body>
+</html>
